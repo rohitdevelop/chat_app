@@ -1,46 +1,56 @@
 "use client";
 
-import React, { useState } from "react";
+import ChatPage from "@/src/app/chat/page";
+import { signIn, useSession,} from "next-auth/react";
 
-const EmailPage = () => {
-  const [email, setEmail] = useState("");
+export default function LoginCard() {
+  const { data: session, status } = useSession();
 
-  const handleSubmit = () => {
-    if (!email) {
-      alert("Please enter your email");
-      return;
-    }
-    console.log("Email:", email);
-  };
+  if (status === "loading") return <p className="text-center mt-10">Loading...</p>;
+
+  if (session) {
+    return (
+       <ChatPage />
+    );
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Sign in with Email
-        </h2>
+    <div className="flex flex-col items-center justify-center h-[89vh] bg-linear-to-br from-blue-50 via-white to-purple-50 px-4">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md space-y-6">
+        <h1 className="text-3xl font-bold text-center">💬 Chat App</h1>
+        <p className="text-gray-500 text-center">Connect & chat securely</p>
 
+        {/* Optional Inputs (UI only) */}
+        <input
+          type="text"
+          placeholder="Your Name"
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
         <input
           type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Email address"
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
 
+        {/* OAuth Buttons */}
         <button
-          onClick={handleSubmit}
-          className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition"
+          onClick={() => signIn("google")}
+          className="w-full py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition"
         >
-          Continue
+          Continue with Google
         </button>
 
-        <p className="text-sm text-center text-gray-500 mt-4">
-          We’ll send you a magic link to sign in.
+        <button
+          onClick={() => signIn("github")}
+          className="w-full py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition"
+        >
+          Continue with GitHub
+        </button>
+
+        <p className="text-xs text-center text-gray-400">
+          By continuing, you agree to our Terms & Privacy Policy
         </p>
       </div>
     </div>
   );
-};
-
-export default EmailPage;
+}

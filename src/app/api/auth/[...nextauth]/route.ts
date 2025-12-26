@@ -36,11 +36,11 @@
 
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
+// import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "../../../../lib/dbConnect";
 
 export const authOptions = {
-  adapter: MongoDBAdapter(clientPromise), // 🔥 Store users automatically in MongoDB
+  // adapter: MongoDBAdapter(clientPromise), // 🔥 Store users automatically in MongoDB
 
   providers: [
     GitHubProvider({

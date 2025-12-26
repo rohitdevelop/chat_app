@@ -13,7 +13,7 @@ export default function Navbar() {
       <h1 className="font-bold text-xl">💬 Chat App</h1>
 
       <div className="flex gap-4">
-       <NavButton text="Start Chatting"/>
+       <NavButton text={session ? `${session?.user?.name} Chating` : "Chating"}/>
 
       <LoginButton text={session ? "Logout" : "Register"} />
       </div>
